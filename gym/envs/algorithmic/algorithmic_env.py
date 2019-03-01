@@ -31,7 +31,7 @@ increase the average length of generated strings. Typical env specs require
 leveling up many times to reach their reward threshold.
 """
 from gym import Env, logger
-from gym.spaces import Discrete, Tuple
+from gym.spaces import Discrete, Tuple, MultiDiscrete
 from gym.utils import colorize, seeding
 import sys
 from contextlib import closing
@@ -75,8 +75,8 @@ class AlgorithmicEnv(Env):
         #       1. Move read head left or right (or up/down)
         #       2. Write or not
         #       3. Which character to write. (Ignored if should_write=0)
-        self.action_space = Tuple(
-            [Discrete(len(self.MOVEMENTS)), Discrete(2), Discrete(self.base)]
+        self.action_space = MultiDiscrete(
+            [len(self.MOVEMENTS), 2, self.base]
         )
         # Can see just what is on the input tape (one of n characters, or nothing)
         self.observation_space = Discrete(self.base + 1)
